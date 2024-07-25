@@ -1,0 +1,22 @@
+meta {
+  name: createRoom
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:8080/api/rooms
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "jose",
+    "ownerId": "1234",
+    "playersId": [
+      "1",
+      "2"
+    ]
+  }
+}

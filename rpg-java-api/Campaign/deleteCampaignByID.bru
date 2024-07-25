@@ -1,0 +1,18 @@
+meta {
+  name: deleteCampaignByID
+  type: http
+  seq: 6
+}
+
+delete {
+  url: http://localhost:8080/api/campaigns/66a25593954f4466a68c11f7
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "Strength": "18",
+    "Dexterity": "12"
+  }
+}

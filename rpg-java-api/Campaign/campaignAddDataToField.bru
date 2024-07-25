@@ -1,0 +1,26 @@
+meta {
+  name: campaignAddDataToField
+  type: http
+  seq: 7
+}
+
+patch {
+  url: http://localhost:8080/api/campaigns/66a26149e766796e41ed6518/fields
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Weapons",
+    "data": [
+      {
+        "weapon1": {
+          "Damage": 10,
+          "Health": 10,
+          "Mana": 10
+        }
+      }
+    ]
+  }
+}

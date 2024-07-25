@@ -1,0 +1,18 @@
+meta {
+  name: getCampaignByID
+  type: http
+  seq: 5
+}
+
+get {
+  url: http://localhost:8080/api/campaigns/66a25b25070e1a0a664410da
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "Strength": "18",
+    "Dexterity": "12"
+  }
+}
