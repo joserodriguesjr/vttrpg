@@ -3,6 +3,7 @@ package com.vttrpg.RPG.domain.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +12,7 @@ import java.util.Map;
 public class Field {
     private String name;
     private List<Column> columns;
-    private List<Map<String, Object>> data;
+    private List<Map<String, Object>> data = new ArrayList<>();
 
     @Getter
     @Setter

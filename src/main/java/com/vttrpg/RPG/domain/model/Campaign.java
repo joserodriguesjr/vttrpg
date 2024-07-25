@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -14,5 +15,5 @@ public class Campaign {
     @Id
     private String id;
     private String name;
-    private List<Field> fields;
+    private List<Field> fields = new ArrayList<>();
 }

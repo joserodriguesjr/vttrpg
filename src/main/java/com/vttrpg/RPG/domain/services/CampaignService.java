@@ -17,11 +17,6 @@ public class CampaignService {
     private CampaignRepository campaignRepository;
 
     public Campaign createCampaign(Campaign campaign) {
-//        todo: isso é logica de negocio?
-//        Campaign campaign = new Campaign();
-//        campaign.setName(campaignName);
-//        campaign.setFields(new ArrayList<>());
-
         return campaignRepository.save(campaign);
     }
 
