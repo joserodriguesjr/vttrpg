@@ -5,7 +5,7 @@ meta {
 }
 
 patch {
-  url: http://localhost:8080/api/campaigns/66a31c7e2c8278239a55d4c8/fields
+  url: http://localhost:8080/api/campaigns/66a322e45ba496790f46401e/fields
   body: json
   auth: none
 }
@@ -13,13 +13,27 @@ patch {
 body:json {
   {
     "name": "Weapons",
-    "replace":true,
+    "replace": false,
     "data": [
       {
         "weapon1": {
-          "Damage": 10,
-          "Health": 10,
-          "Mana": 10
+          "Damage": 1,
+          "Health": 1,
+          "Mana": 1
+        }
+      },
+      {
+        "weapon2": {
+          "Damage": 2,
+          "Health": 2,
+          "Mana": 2
+        }
+      },
+      {
+        "weapon3": {
+          "Damage": 3,
+          "Health": 3,
+          "Mana": 3
         }
       }
     ]

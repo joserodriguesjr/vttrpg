@@ -26,11 +26,7 @@ public class CampaignService {
     }
 
     public Campaign getCampaignByID(String id) {
-        Optional<Campaign> campaign = campaignRepository.findById(id);
-        if (campaign.isEmpty()) {
-            throw new CustomException("Campaign not found");
-        }
-        return campaign.get();
+        return campaignRepository.findById(id).orElseThrow(() -> new CustomException("Campaign not found"));
     }
 
     public boolean deleteCampaignByID(String id) {
@@ -89,7 +85,25 @@ public class CampaignService {
             List<Map<String, Object>> newData = updatedField.getData();
 
             if (existingData != null && newData != null) {
-                existingData.addAll(newData);
+                for (Map<String, Object> newElement : newData) {
+                    boolean found = false;
+                    for (int i = 0; i < existingData.size(); i++) {
+                        if (found) {
+                            break;
+                        }
+
+                        Map<String, Object> existingElement = existingData.get(i);
+                        String newElementKey = newElement.keySet().stream().toList().getFirst();
+                        if (existingElement.containsKey(newElementKey)) {
+                            existingData.set(i, newElement);
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        existingData.add(newElement);
+                    }
+                }
             } else if (existingData == null) {
                 existingField.setData(newData);
             } // If newData is null, do nothing
