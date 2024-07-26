@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -68,8 +69,7 @@ public class CampaignService {
         return campaignRepository.save(campaign);
     }
 
-    public Campaign updateFieldData(String id, Field updatedField) {
-        // todo: make incremental
+    public Campaign updateFieldData(String id, boolean replace, Field updatedField) {
         Campaign campaign = this.getCampaignByID(id);
 
         Optional<Field> existingFieldOpt = campaign.getFields().stream()
@@ -81,7 +81,19 @@ public class CampaignService {
         }
 
         Field existingField = existingFieldOpt.get();
-        existingField.setData(updatedField.getData());
+
+        if (replace) {
+            existingField.setData(updatedField.getData());
+        } else {
+            List<Map<String, Object>> existingData = existingField.getData();
+            List<Map<String, Object>> newData = updatedField.getData();
+
+            if (existingData != null && newData != null) {
+                existingData.addAll(newData);
+            } else if (existingData == null) {
+                existingField.setData(newData);
+            } // If newData is null, do nothing
+        }
 
         return campaignRepository.save(campaign);
     }

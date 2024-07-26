@@ -18,7 +18,6 @@ public interface CampaignMapper {
 
     Campaign toDomain(CampaignDocument campaignDocument);
 
-    @Mapping(target = "persisted", ignore = true)
     CampaignDocument toInfrastructure(Campaign campaign);
 
 }

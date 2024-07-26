@@ -66,7 +66,8 @@ public class CampaignController {
     @PatchMapping("/{id}/fields")
     public Campaign addDataToField(@PathVariable(value = "id") String id, @Valid @RequestBody FieldDataForm fieldDataForm) {
         Field updatedField = fieldMapper.toDomain(fieldDataForm);
-        return campaignService.updateFieldData(id, updatedField);
+        boolean replace = fieldDataForm.replace();
+        return campaignService.updateFieldData(id, replace, updatedField);
     }
 
 }

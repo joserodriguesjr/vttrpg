@@ -3,6 +3,7 @@ package com.vttrpg.RPG.infrastructure.adapter;
 import com.vttrpg.RPG.domain.mapper.CampaignMapper;
 import com.vttrpg.RPG.domain.model.Campaign;
 import com.vttrpg.RPG.domain.repository.CampaignRepository;
+import com.vttrpg.RPG.infrastructure.provider.mongodb.CampaignDocument;
 import com.vttrpg.RPG.infrastructure.provider.mongodb.CampaignMongoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -19,7 +20,9 @@ public class CampaignRepositoryImpl implements CampaignRepository {
 
     @Override
     public Campaign save(Campaign campaign) {
-        return campaignMapper.toDomain(campaignMongoRepository.save(campaignMapper.toInfrastructure(campaign)));
+        CampaignDocument campaignDocument = campaignMapper.toInfrastructure(campaign);
+        CampaignDocument savedCampaignDocument = campaignMongoRepository.save(campaignDocument);
+        return campaignMapper.toDomain(savedCampaignDocument);
     }
 
     @Override
