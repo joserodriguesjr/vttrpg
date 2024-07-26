@@ -12,5 +12,5 @@ public interface CampaignRepository {
 
     List<Campaign> findAll();
 
-    void deleteById(String id);
+    boolean deleteById(String id);
 }

@@ -19,21 +19,25 @@ public class CampaignRepositoryImpl implements CampaignRepository {
 
     @Override
     public Campaign save(Campaign campaign) {
-        return campaignMongoRepository.save(campaign);
+        return campaignMapper.toDomain(campaignMongoRepository.save(campaignMapper.toInfrastructure(campaign)));
     }
 
     @Override
     public Optional<Campaign> findById(String id) {
-        return campaignMongoRepository.findById(id);
+        return campaignMongoRepository.findById(id).map(campaignMapper::toDomain);
     }
 
     @Override
     public List<Campaign> findAll() {
-        return campaignMongoRepository.findAll().stream().toList();
+        return campaignMongoRepository.findAll().stream().map(campaignMapper::toDomain).toList();
     }
 
     @Override
-    public void deleteById(String id) {
-        campaignMongoRepository.deleteById(id);
+    public boolean deleteById(String id) {
+        if (campaignMongoRepository.existsById(id)) {
+            campaignMongoRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }

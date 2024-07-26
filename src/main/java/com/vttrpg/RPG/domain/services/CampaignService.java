@@ -32,8 +32,8 @@ public class CampaignService {
         return campaign.get();
     }
 
-    public void deleteCampaignByID(String id) {
-        campaignRepository.deleteById(id);
+    public boolean deleteCampaignByID(String id) {
+        return campaignRepository.deleteById(id);
     }
 
     public Campaign createField(String id, Field newField) {

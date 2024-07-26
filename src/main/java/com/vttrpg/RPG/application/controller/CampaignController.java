@@ -1,8 +1,8 @@
 package com.vttrpg.RPG.application.controller;
 
+import com.vttrpg.RPG.application.form.CampaignForm;
 import com.vttrpg.RPG.application.form.FieldDataForm;
 import com.vttrpg.RPG.application.form.FieldForm;
-import com.vttrpg.RPG.application.form.CampaignForm;
 import com.vttrpg.RPG.domain.mapper.CampaignMapper;
 import com.vttrpg.RPG.domain.mapper.FieldMapper;
 import com.vttrpg.RPG.domain.model.Campaign;
@@ -10,6 +10,8 @@ import com.vttrpg.RPG.domain.model.Field;
 import com.vttrpg.RPG.domain.services.CampaignService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,8 +42,13 @@ public class CampaignController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteCampaignByID(@PathVariable(value = "id") String id) {
-        campaignService.deleteCampaignByID(id);
+    public ResponseEntity<HttpStatus> deleteCampaignByID(@PathVariable(value = "id") String id) {
+        boolean isDeleted = campaignService.deleteCampaignByID(id);
+        if (isDeleted) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping("/{id}/fields")
