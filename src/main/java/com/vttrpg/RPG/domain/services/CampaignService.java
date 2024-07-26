@@ -78,6 +78,10 @@ public class CampaignService {
 
         Field existingField = existingFieldOpt.get();
 
+        // if 'replace' true -> just overwrite all data
+        // else -> iterate over both datas (existing and new)
+        // | if key already exists -> updates its values
+        // | else -> create new data
         if (replace) {
             existingField.setData(updatedField.getData());
         } else {
