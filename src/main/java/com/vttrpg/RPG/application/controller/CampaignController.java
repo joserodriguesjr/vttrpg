@@ -25,6 +25,7 @@ public class CampaignController {
     private final CampaignMapper campaignMapper;
     private final FieldMapper fieldMapper;
 
+//    @PostMapping(path= "/", consumes = "application/json", produces = "application/json")
     @PostMapping
     public Campaign createCampaign(@Valid @RequestBody CampaignForm campaignForm) {
         Campaign campaign = campaignMapper.toDomain(campaignForm);
