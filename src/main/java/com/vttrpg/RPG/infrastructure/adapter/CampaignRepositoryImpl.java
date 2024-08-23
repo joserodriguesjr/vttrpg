@@ -3,8 +3,8 @@ package com.vttrpg.RPG.infrastructure.adapter;
 import com.vttrpg.RPG.domain.mapper.CampaignMapper;
 import com.vttrpg.RPG.domain.model.Campaign;
 import com.vttrpg.RPG.domain.repository.CampaignRepository;
-import com.vttrpg.RPG.infrastructure.provider.mongodb.CampaignDocument;
-import com.vttrpg.RPG.infrastructure.provider.mongodb.CampaignMongoRepository;
+import com.vttrpg.RPG.infrastructure.provider.CampaignEntity;
+import com.vttrpg.RPG.infrastructure.provider.CampaignPostgresRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -15,30 +15,30 @@ import java.util.Optional;
 @AllArgsConstructor
 public class CampaignRepositoryImpl implements CampaignRepository {
 
-    private final CampaignMongoRepository campaignMongoRepository;
+    private final CampaignPostgresRepository campaignRepository;
     private final CampaignMapper campaignMapper;
 
     @Override
     public Campaign save(Campaign campaign) {
-        CampaignDocument campaignDocument = campaignMapper.toInfrastructure(campaign);
-        CampaignDocument savedCampaignDocument = campaignMongoRepository.save(campaignDocument);
+        CampaignEntity campaignDocument = campaignMapper.toInfrastructure(campaign);
+        CampaignEntity savedCampaignDocument = campaignRepository.save(campaignDocument);
         return campaignMapper.toDomain(savedCampaignDocument);
     }
 
     @Override
     public Optional<Campaign> findById(String id) {
-        return campaignMongoRepository.findById(id).map(campaignMapper::toDomain);
+        return campaignRepository.findById(id).map(campaignMapper::toDomain);
     }
 
     @Override
     public List<Campaign> findAll() {
-        return campaignMongoRepository.findAll().stream().map(campaignMapper::toDomain).toList();
+        return campaignRepository.findAll().stream().map(campaignMapper::toDomain).toList();
     }
 
     @Override
     public boolean deleteById(String id) {
-        if (campaignMongoRepository.existsById(id)) {
-            campaignMongoRepository.deleteById(id);
+        if (campaignRepository.existsById(id)) {
+            campaignRepository.deleteById(id);
             return true;
         }
         return false;

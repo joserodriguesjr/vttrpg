@@ -2,10 +2,9 @@ package com.vttrpg.RPG.domain.mapper;
 
 import com.vttrpg.RPG.application.form.CampaignForm;
 import com.vttrpg.RPG.domain.model.Campaign;
-import com.vttrpg.RPG.infrastructure.provider.mongodb.CampaignDocument;
+import com.vttrpg.RPG.infrastructure.provider.CampaignEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-
 
 @Mapper(componentModel = "spring")
 public interface CampaignMapper {
@@ -16,9 +15,8 @@ public interface CampaignMapper {
     @Mapping(target = "lastModifiedDate", ignore = true)
     Campaign toDomain(CampaignForm campaignForm);
 
-    Campaign toDomain(CampaignDocument campaignDocument);
+    Campaign toDomain(CampaignEntity campaignEntity);
 
-    CampaignDocument toInfrastructure(Campaign campaign);
+    CampaignEntity toInfrastructure(Campaign campaign);
 
 }
-
