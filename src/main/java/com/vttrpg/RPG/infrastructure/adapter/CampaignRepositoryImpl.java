@@ -1,9 +1,8 @@
 package com.vttrpg.RPG.infrastructure.adapter;
 
 import com.vttrpg.RPG.domain.mapper.CampaignMapper;
-import com.vttrpg.RPG.domain.model.Campaign;
+import com.vttrpg.RPG.domain.model.CampaignEntity;
 import com.vttrpg.RPG.domain.repository.CampaignRepository;
-import com.vttrpg.RPG.infrastructure.provider.CampaignEntity;
 import com.vttrpg.RPG.infrastructure.provider.CampaignPostgresRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -19,24 +18,22 @@ public class CampaignRepositoryImpl implements CampaignRepository {
     private final CampaignMapper campaignMapper;
 
     @Override
-    public Campaign save(Campaign campaign) {
-        CampaignEntity campaignDocument = campaignMapper.toInfrastructure(campaign);
-        CampaignEntity savedCampaignDocument = campaignRepository.save(campaignDocument);
-        return campaignMapper.toDomain(savedCampaignDocument);
+    public CampaignEntity save(CampaignEntity campaign) {
+        return campaignRepository.save(campaign);
     }
 
     @Override
-    public Optional<Campaign> findById(String id) {
-        return campaignRepository.findById(id).map(campaignMapper::toDomain);
+    public Optional<CampaignEntity> findById(Long id) {
+        return campaignRepository.findById(id);
     }
 
     @Override
-    public List<Campaign> findAll() {
-        return campaignRepository.findAll().stream().map(campaignMapper::toDomain).toList();
+    public List<CampaignEntity> findAll() {
+        return campaignRepository.findAll().stream().toList();
     }
 
     @Override
-    public boolean deleteById(String id) {
+    public boolean deleteById(Long id) {
         if (campaignRepository.existsById(id)) {
             campaignRepository.deleteById(id);
             return true;

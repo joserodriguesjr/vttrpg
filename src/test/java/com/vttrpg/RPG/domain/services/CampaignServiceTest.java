@@ -1,7 +1,7 @@
 package com.vttrpg.RPG.domain.services;
 
 import com.vttrpg.RPG.application.exception.CustomException;
-import com.vttrpg.RPG.domain.model.Campaign;
+import com.vttrpg.RPG.domain.model.CampaignEntity;
 import com.vttrpg.RPG.domain.model.Field;
 import com.vttrpg.RPG.domain.repository.CampaignRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,11 +37,11 @@ public class CampaignServiceTest {
 
     @Test
     public void testCreateCampaign() {
-        Campaign campaign = new Campaign();
+        CampaignEntity campaign = new CampaignEntity();
         campaign.setName("Test Campaign");
-        when(campaignRepository.save(any(Campaign.class))).thenReturn(campaign);
+        when(campaignRepository.save(any(CampaignEntity.class))).thenReturn(campaign);
 
-        Campaign createdCampaign = campaignService.createCampaign(campaign);
+        CampaignEntity createdCampaign = campaignService.createCampaign(campaign);
 
         assertNotNull(createdCampaign);
         assertEquals("Test Campaign", createdCampaign.getName());
@@ -50,11 +50,11 @@ public class CampaignServiceTest {
 
     @Test
     public void testGetAllCampaigns() {
-        List<Campaign> campaigns = new ArrayList<>();
-        campaigns.add(new Campaign());
+        List<CampaignEntity> campaigns = new ArrayList<>();
+        campaigns.add(new CampaignEntity());
         when(campaignRepository.findAll()).thenReturn(campaigns);
 
-        List<Campaign> result = campaignService.getAllCampaigns();
+        List<CampaignEntity> result = campaignService.getAllCampaigns();
 
         assertEquals(1, result.size());
         verify(campaignRepository, times(1)).findAll();
@@ -62,11 +62,11 @@ public class CampaignServiceTest {
 
     @Test
     public void testGetCampaignByID_Found() {
-        Campaign campaign = new Campaign();
+        CampaignEntity campaign = new CampaignEntity();
         campaign.setName("Test Campaign");
-        when(campaignRepository.findById("1")).thenReturn(Optional.of(campaign));
+        when(campaignRepository.findById(1L)).thenReturn(Optional.of(campaign));
 
-        Campaign result = campaignService.getCampaignByID("1");
+        CampaignEntity result = campaignService.getCampaignByID(1L);
 
         assertNotNull(result);
         assertEquals("Test Campaign", result.getName());
@@ -74,34 +74,34 @@ public class CampaignServiceTest {
 
     @Test
     public void testGetCampaignByID_NotFound() {
-        when(campaignRepository.findById("1")).thenReturn(Optional.empty());
+        when(campaignRepository.findById(1L)).thenReturn(Optional.empty());
 
-        assertThrows(CustomException.class, () -> campaignService.getCampaignByID("1"));
+        assertThrows(CustomException.class, () -> campaignService.getCampaignByID(1L));
     }
 
     @Test
     public void testDeleteCampaignByID() {
-        when(campaignRepository.deleteById("1")).thenReturn(true);
+        when(campaignRepository.deleteById(1L)).thenReturn(true);
 
-        boolean result = campaignService.deleteCampaignByID("1");
+        boolean result = campaignService.deleteCampaignByID(1L);
 
         assertTrue(result);
-        verify(campaignRepository, times(1)).deleteById("1");
+        verify(campaignRepository, times(1)).deleteById(1L);
     }
 
     @Test
     public void testCreateField_Success() {
-        Campaign campaign = new Campaign();
-        campaign.setId("1");
+        CampaignEntity campaign = new CampaignEntity();
+        campaign.setId(1L);
         campaign.setFields(new ArrayList<>());
 
         Field newField = new Field();
         newField.setName("Field 1");
 
-        when(campaignRepository.findById("1")).thenReturn(Optional.of(campaign));
-        when(campaignRepository.save(any(Campaign.class))).thenReturn(campaign);
+        when(campaignRepository.findById(1L)).thenReturn(Optional.of(campaign));
+        when(campaignRepository.save(any(CampaignEntity.class))).thenReturn(campaign);
 
-        Campaign updatedCampaign = campaignService.createField("1", newField);
+        CampaignEntity updatedCampaign = campaignService.createField(1L, newField);
 
         assertNotNull(updatedCampaign);
         assertEquals(1, updatedCampaign.getFields().size());
@@ -110,8 +110,8 @@ public class CampaignServiceTest {
 
     @Test
     public void testCreateField_FieldExists() {
-        Campaign campaign = new Campaign();
-        campaign.setId("1");
+        CampaignEntity campaign = new CampaignEntity();
+        campaign.setId(1L);
         Field existingField = new Field();
         existingField.setName("Field 1");
         campaign.setFields(List.of(existingField));
@@ -119,15 +119,15 @@ public class CampaignServiceTest {
         Field newField = new Field();
         newField.setName("Field 1");
 
-        when(campaignRepository.findById("1")).thenReturn(Optional.of(campaign));
+        when(campaignRepository.findById(1L)).thenReturn(Optional.of(campaign));
 
-        assertThrows(CustomException.class, () -> campaignService.createField("1", newField));
+        assertThrows(CustomException.class, () -> campaignService.createField(1L, newField));
     }
 
     @Test
     public void testUpdateFieldColumns_Success() {
-        Campaign campaign = new Campaign();
-        campaign.setId("1");
+        CampaignEntity campaign = new CampaignEntity();
+        campaign.setId(1L);
 
         Field existingField = new Field();
         existingField.setName("Field 1");
@@ -142,10 +142,10 @@ public class CampaignServiceTest {
         updatedField.setName("Field 1");
         updatedField.setColumns(List.of(column1, column2));
 
-        when(campaignRepository.findById("1")).thenReturn(Optional.of(campaign));
-        when(campaignRepository.save(any(Campaign.class))).thenReturn(campaign);
+        when(campaignRepository.findById(1L)).thenReturn(Optional.of(campaign));
+        when(campaignRepository.save(any(CampaignEntity.class))).thenReturn(campaign);
 
-        Campaign updatedCampaign = campaignService.updateFieldColumns("1", updatedField);
+        CampaignEntity updatedCampaign = campaignService.updateFieldColumns(1L, updatedField);
 
         assertNotNull(updatedCampaign);
         assertEquals(2, updatedCampaign.getFields().getFirst().getColumns().size());
@@ -153,22 +153,22 @@ public class CampaignServiceTest {
 
     @Test
     public void testUpdateFieldColumns_FieldNotFound() {
-        Campaign campaign = new Campaign();
-        campaign.setId("1");
+        CampaignEntity campaign = new CampaignEntity();
+        campaign.setId(1L);
         campaign.setFields(new ArrayList<>());
 
         Field updatedField = new Field();
         updatedField.setName("Field 1");
 
-        when(campaignRepository.findById("1")).thenReturn(Optional.of(campaign));
+        when(campaignRepository.findById(1L)).thenReturn(Optional.of(campaign));
 
-        assertThrows(CustomException.class, () -> campaignService.updateFieldColumns("1", updatedField));
+        assertThrows(CustomException.class, () -> campaignService.updateFieldColumns(1L, updatedField));
     }
 
     @Test
     public void testUpdateFieldData_ReplaceTrue() {
-        Campaign campaign = new Campaign();
-        campaign.setId("1");
+        CampaignEntity campaign = new CampaignEntity();
+        campaign.setId(1L);
 
         Field existingField = new Field();
         existingField.setName("Field 1");
@@ -180,10 +180,10 @@ public class CampaignServiceTest {
         updatedField.setName("Field 1");
         updatedField.setData(List.of(Map.of("Key1", "Value1")));
 
-        when(campaignRepository.findById("1")).thenReturn(Optional.of(campaign));
-        when(campaignRepository.save(any(Campaign.class))).thenReturn(campaign);
+        when(campaignRepository.findById(1L)).thenReturn(Optional.of(campaign));
+        when(campaignRepository.save(any(CampaignEntity.class))).thenReturn(campaign);
 
-        Campaign updatedCampaign = campaignService.updateFieldData("1", true, updatedField);
+        CampaignEntity updatedCampaign = campaignService.updateFieldData(1L, true, updatedField);
 
         assertNotNull(updatedCampaign);
         assertEquals(1, updatedCampaign.getFields().getFirst().getData().size());
@@ -191,8 +191,8 @@ public class CampaignServiceTest {
 
     @Test
     public void testUpdateFieldData_ReplaceFalse() {
-        Campaign campaign = new Campaign();
-        campaign.setId("1");
+        CampaignEntity campaign = new CampaignEntity();
+        campaign.setId(1L);
 
         Field existingField = new Field();
         existingField.setName("Field 1");
@@ -204,10 +204,10 @@ public class CampaignServiceTest {
         updatedField.setName("Field 1");
         updatedField.setData(List.of(Map.of("Key1", "Value1")));
 
-        when(campaignRepository.findById("1")).thenReturn(Optional.of(campaign));
-        when(campaignRepository.save(any(Campaign.class))).thenReturn(campaign);
+        when(campaignRepository.findById(1L)).thenReturn(Optional.of(campaign));
+        when(campaignRepository.save(any(CampaignEntity.class))).thenReturn(campaign);
 
-        Campaign updatedCampaign = campaignService.updateFieldData("1", false, updatedField);
+        CampaignEntity updatedCampaign = campaignService.updateFieldData(1L, false, updatedField);
 
         assertNotNull(updatedCampaign);
         assertEquals(1, updatedCampaign.getFields().getFirst().getData().size());
@@ -215,16 +215,16 @@ public class CampaignServiceTest {
 
     @Test
     public void testUpdateFieldData_FieldNotFound() {
-        Campaign campaign = new Campaign();
-        campaign.setId("1");
+        CampaignEntity campaign = new CampaignEntity();
+        campaign.setId(1L);
         campaign.setFields(new ArrayList<>());
 
         Field updatedField = new Field();
         updatedField.setName("Field 1");
 
-        when(campaignRepository.findById("1")).thenReturn(Optional.of(campaign));
+        when(campaignRepository.findById(1L)).thenReturn(Optional.of(campaign));
 
-        assertThrows(CustomException.class, () -> campaignService.updateFieldData("1", true, updatedField));
+        assertThrows(CustomException.class, () -> campaignService.updateFieldData(1L, true, updatedField));
     }
 
 }

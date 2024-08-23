@@ -1,9 +1,9 @@
 package com.vttrpg.RPG.domain.services;
 
-import com.vttrpg.RPG.domain.model.Campaign;
+import com.vttrpg.RPG.application.exception.CustomException;
+import com.vttrpg.RPG.domain.model.CampaignEntity;
 import com.vttrpg.RPG.domain.model.Field;
 import com.vttrpg.RPG.domain.repository.CampaignRepository;
-import com.vttrpg.RPG.application.exception.CustomException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,24 +17,24 @@ public class CampaignService {
 
     private CampaignRepository campaignRepository;
 
-    public Campaign createCampaign(Campaign campaign) {
+    public CampaignEntity createCampaign(CampaignEntity campaign) {
         return campaignRepository.save(campaign);
     }
 
-    public List<Campaign> getAllCampaigns() {
+    public List<CampaignEntity> getAllCampaigns() {
         return campaignRepository.findAll();
     }
 
-    public Campaign getCampaignByID(String id) {
+    public CampaignEntity getCampaignByID(Long id) {
         return campaignRepository.findById(id).orElseThrow(() -> new CustomException("Campaign not found"));
     }
 
-    public boolean deleteCampaignByID(String id) {
+    public boolean deleteCampaignByID(Long id) {
         return campaignRepository.deleteById(id);
     }
 
-    public Campaign createField(String id, Field newField) {
-        Campaign campaign = this.getCampaignByID(id);
+    public CampaignEntity createField(Long id, Field newField) {
+        CampaignEntity campaign = this.getCampaignByID(id);
 
         boolean fieldExists = campaign.getFields().stream()
                 .anyMatch(field -> field.getName().equalsIgnoreCase(newField.getName()));
@@ -48,8 +48,8 @@ public class CampaignService {
         return campaignRepository.save(campaign);
     }
 
-    public Campaign updateFieldColumns(String id, Field updatedField) {
-        Campaign campaign = this.getCampaignByID(id);
+    public CampaignEntity updateFieldColumns(Long id, Field updatedField) {
+        CampaignEntity campaign = this.getCampaignByID(id);
 
         Optional<Field> existingFieldOpt = campaign.getFields().stream()
                 .filter(field -> field.getName().equals(updatedField.getName()))
@@ -65,8 +65,8 @@ public class CampaignService {
         return campaignRepository.save(campaign);
     }
 
-    public Campaign updateFieldData(String id, boolean replace, Field updatedField) {
-        Campaign campaign = this.getCampaignByID(id);
+    public CampaignEntity updateFieldData(Long id, boolean replace, Field updatedField) {
+        CampaignEntity campaign = this.getCampaignByID(id);
 
         Optional<Field> existingFieldOpt = campaign.getFields().stream()
                 .filter(field -> field.getName().equals(updatedField.getName()))

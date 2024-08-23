@@ -5,7 +5,7 @@ import com.vttrpg.RPG.application.form.FieldDataForm;
 import com.vttrpg.RPG.application.form.FieldForm;
 import com.vttrpg.RPG.domain.mapper.CampaignMapper;
 import com.vttrpg.RPG.domain.mapper.FieldMapper;
-import com.vttrpg.RPG.domain.model.Campaign;
+import com.vttrpg.RPG.domain.model.CampaignEntity;
 import com.vttrpg.RPG.domain.model.Field;
 import com.vttrpg.RPG.domain.services.CampaignService;
 import jakarta.validation.Valid;
@@ -27,23 +27,23 @@ public class CampaignController {
 
 //    @PostMapping(path= "/", consumes = "application/json", produces = "application/json")
     @PostMapping
-    public Campaign createCampaign(@Valid @RequestBody CampaignForm campaignForm) {
-        Campaign campaign = campaignMapper.toDomain(campaignForm);
+    public CampaignEntity createCampaign(@Valid @RequestBody CampaignForm campaignForm) {
+        CampaignEntity campaign = campaignMapper.toDomain(campaignForm);
         return campaignService.createCampaign(campaign);
     }
 
     @GetMapping
-    public List<Campaign> getAllCampaigns() {
+    public List<CampaignEntity> getAllCampaigns() {
         return campaignService.getAllCampaigns();
     }
 
     @GetMapping("/{id}")
-    public Campaign getCampaignByID(@PathVariable(value = "id") String id) {
+    public CampaignEntity getCampaignByID(@PathVariable(value = "id") Long id) {
         return campaignService.getCampaignByID(id);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteCampaignByID(@PathVariable(value = "id") String id) {
+    public ResponseEntity<HttpStatus> deleteCampaignByID(@PathVariable(value = "id") Long id) {
         boolean isDeleted = campaignService.deleteCampaignByID(id);
         if (isDeleted) {
             return new ResponseEntity<>(HttpStatus.OK);
@@ -53,19 +53,19 @@ public class CampaignController {
     }
 
     @PostMapping("/{id}/fields")
-    public Campaign createField(@PathVariable(value = "id") String id, @Valid @RequestBody FieldForm fieldForm) {
+    public CampaignEntity createField(@PathVariable(value = "id") Long id, @Valid @RequestBody FieldForm fieldForm) {
         Field newField = fieldMapper.toDomain(fieldForm);
         return campaignService.createField(id, newField);
     }
 
     @PutMapping("/{id}/fields")
-    public Campaign updateField(@PathVariable(value = "id") String id, @Valid @RequestBody FieldForm fieldForm) {
+    public CampaignEntity updateField(@PathVariable(value = "id") Long id, @Valid @RequestBody FieldForm fieldForm) {
         Field updatedField = fieldMapper.toDomain(fieldForm);
         return campaignService.updateFieldColumns(id, updatedField);
     }
 
     @PatchMapping("/{id}/fields")
-    public Campaign addDataToField(@PathVariable(value = "id") String id, @Valid @RequestBody FieldDataForm fieldDataForm) {
+    public CampaignEntity addDataToField(@PathVariable(value = "id") Long id, @Valid @RequestBody FieldDataForm fieldDataForm) {
         Field updatedField = fieldMapper.toDomain(fieldDataForm);
         boolean replace = fieldDataForm.replace();
         return campaignService.updateFieldData(id, replace, updatedField);

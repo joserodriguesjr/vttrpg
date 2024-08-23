@@ -1,6 +1,5 @@
-package com.vttrpg.RPG.infrastructure.provider;
+package com.vttrpg.RPG.domain.model;
 
-import com.vttrpg.RPG.domain.model.Field;
 import io.hypersistence.utils.hibernate.type.json.JsonBinaryType;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -10,6 +9,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -37,6 +37,6 @@ public class CampaignEntity {
 
     @Type(JsonBinaryType.class)
     @Column(name = "fields", columnDefinition = "jsonb")
-    private List<Field> fields;
+    private List<Field> fields = new ArrayList<>();
 
 }

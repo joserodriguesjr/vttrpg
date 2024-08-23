@@ -1,16 +1,16 @@
 package com.vttrpg.RPG.domain.repository;
 
-import com.vttrpg.RPG.domain.model.Campaign;
+import com.vttrpg.RPG.domain.model.CampaignEntity;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CampaignRepository {
-    Campaign save(Campaign campaign);
+    CampaignEntity save(CampaignEntity campaign);
 
-    Optional<Campaign> findById(String id);
+    Optional<CampaignEntity> findById(Long id);
 
-    List<Campaign> findAll();
+    List<CampaignEntity> findAll();
 
-    boolean deleteById(String id);
+    boolean deleteById(Long id);
 }
