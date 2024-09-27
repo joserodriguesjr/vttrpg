@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: RPG
+  devtools:
+    restart:
+      enabled: true
+      exclude: static/**,public/**
+    livereload:
+      enabled: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/rpgdb
+    username: postgres
+    password: root
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+#    show-sql: true
+    hibernate:
+      ddl-auto: update
+  data:
+    rest:
+      basePath: /api
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html

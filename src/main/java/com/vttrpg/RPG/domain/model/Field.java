@@ -1,24 +1,30 @@
 package com.vttrpg.RPG.domain.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@Getter
-@Setter
+@Data
 public class Field {
     private String name;
-    private List<Column> columns;
+
+    private List<Column> columns = new ArrayList<>();
+
+//    private List<DataItem> data = new ArrayList<>();
     private List<Map<String, Object>> data = new ArrayList<>();
 
-    @Getter
-    @Setter
+    @Data
     public static class Column {
         private String name;
-        private String type;
+        private PossibleTypes type;
+        public enum PossibleTypes {STRING, INTEGER, FLOAT}
     }
 
+    @Data
+    public static class DataItem {
+        private String key;
+        private String value;
+    }
 }

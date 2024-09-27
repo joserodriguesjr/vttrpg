@@ -1,0 +1,44 @@
+@startuml
+
+entity User {
+  id : Long
+  name : String
+  nickname : String
+  email : String
+  password: String
+  rooms_ids : List<Long>
+  void register()
+  void login()
+}
+
+entity Room {
+  room_id : Long
+  user_id : Long
+  campaign_id : Long
+  players_id : List<Long>
+}
+
+entity Campaign {
+  campaign_id : Long
+  name : String
+  fields : List<Field>
+  created_date : Date
+  last_modified_date : Date
+}
+
+class Field {
+  name : String
+  columns : List<Column>
+  data : List<Map<String, Object>>
+}
+
+class Column {
+  name : String
+  type : String
+}
+
+User::id <--> Room::user_id
+User::rooms_ids <--> Room::room_id
+Room::campaign_id <--> Campaign::id
+
+@enduml

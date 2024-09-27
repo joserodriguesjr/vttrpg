@@ -1,10 +1,9 @@
 package com.vttrpg.RPG.application.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vttrpg.RPG.application.form.CampaignForm;
 import com.vttrpg.RPG.domain.mapper.CampaignMapper;
 import com.vttrpg.RPG.domain.mapper.FieldMapper;
-import com.vttrpg.RPG.domain.model.CampaignEntity;
+import com.vttrpg.RPG.domain.model.Campaign;
 import com.vttrpg.RPG.domain.services.CampaignService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -45,13 +44,13 @@ public class CampaignControllerTest {
     @Test
     public void testCreateCampaign() throws Exception {
         // Prepare the expected Campaign object
-        CampaignEntity campaign = new CampaignEntity();
+        Campaign campaign = new Campaign();
         campaign.setId(1L);
         campaign.setName("testing");
 
         // Mock the behavior of campaignMapper and campaignService
         Mockito.when(campaignMapper.toDomain(any(CampaignForm.class))).thenReturn(campaign);
-        Mockito.when(campaignService.createCampaign(any(CampaignEntity.class))).thenReturn(campaign);
+        Mockito.when(campaignService.createCampaign(any(Campaign.class))).thenReturn(campaign);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/campaigns")
                         .content(asJsonString(new CampaignForm("testing")))
